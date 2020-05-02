@@ -14,5 +14,5 @@ export const FileTreeContainer = styled.div`
 `;
 
 export const FileTreeLine = styled.pre`
-  margin: 0;
+  margin: 0.1rem;
 `
