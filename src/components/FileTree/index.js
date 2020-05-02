@@ -16,7 +16,7 @@ function FileTree(props) {
     <FileTreeContainer>
       <code>
         {lines.map(line => (
-          <FileTreeLine>{line}</FileTreeLine>
+          <FileTreeLine key={line}>{line}</FileTreeLine>
         ))}
       </code>
     </FileTreeContainer>

@@ -16,7 +16,6 @@ export const writeFileTree = fileTree => {
 const writeChildrenLines = (parentNode, parentWasLastChild, prefixToBestow) => {
   const children = getNodeChildren(parentNode);
   let childrenLines = "";
-  console.log(children);
 
   if (children.length === 0) return childrenLines;
 
