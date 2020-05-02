@@ -12,3 +12,7 @@ export const FileTreeContainer = styled.div`
   max-width: 700px;
   overflow: auto;
 `;
+
+export const FileTreeLine = styled.pre`
+  margin: 0;
+`
