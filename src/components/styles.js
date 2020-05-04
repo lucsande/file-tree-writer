@@ -18,5 +18,6 @@ export const Body = styled.div`
   padding: 50px 50px;
   flex-grow: 1;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 `;

@@ -10,7 +10,6 @@ export const FileTreeContainer = styled.div`
   margin-bottom: 1rem;
   max-height: 600px;
   overflow: auto;
-  flex-grow: 1;
 `;
 
 export const FileTreeLine = styled.pre`
