@@ -6,15 +6,10 @@ const fileTreeContext = createContext(null);
 const FileTreeProvider = ({ children }) => {
   const [fileTree, setFileTree] = useState(exampleFileTree);
 
-  // useEffect(() => {
-  //   setFileTree(exampleFileTree);
-  //   console.log(fileTree);
-  // }, []);
-
   const updateNode = (nodePath, newValue) => {
     const nodesArray = nodePath.split("-");
     let nodeToUpdate = fileTree;
-
+    
     nodesArray.forEach(node => {
       if (nodeToUpdate.hasOwnProperty(node) && typeof nodeToUpdate[node] === "object") {
         nodeToUpdate = nodeToUpdate[node];
@@ -22,21 +17,23 @@ const FileTreeProvider = ({ children }) => {
         throw new Error("nodePath couldn't be resolved");
       }
     });
-
+    
     nodeToUpdate["_name"] = newValue;
   };
-
+  
   const addToFileTree = useCallback(() => {
     // TODO
   }, [fileTree]);
-
+  
   const updateFileTree = useCallback(({ nodePath, newValue }) => {
     if (nodePath === "root") {
-      setFileTree({ ...fileTree, _name: newValue });
+      fileTree["_name"] = newValue;
+      setFileTree({ ...fileTree });
     } else {
       updateNode(nodePath, newValue);
       setFileTree({ ...fileTree });
     }
+    console.log(fileTree)
   }, []);
 
   const removeFromFileTree = useCallback(() => {
