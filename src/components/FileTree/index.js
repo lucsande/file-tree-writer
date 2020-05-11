@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { FileTreeContainer, FileTreeLine } from "./styles";
 import { writeFileTree } from '../../utils/fileTreeWriter'
+import { useFileTree } from "../../hooks/fileTree";
 
-function FileTree(props) {
-  const { fileTree } = props;
+function FileTree() {
+  const { fileTree } = useFileTree();
+
   const [lines, setLines] = useState([]);
 
   useEffect(() => {

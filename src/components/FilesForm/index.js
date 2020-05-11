@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { FilesFormContainer, InputContainer, Input } from "./styles";
-import InputLine from './InputLine'
+import InputLine from "./InputLine";
+import { useFileTree } from "../../hooks/fileTree";
 
 import { FiFolder, FiChevronDown } from "react-icons/fi";
 
 function FilesForm() {
+  const { addToFileTree, removeFromFileTree, fileTree } = useFileTree();
+
   return (
     <FilesFormContainer>
       <InputLine type="folder" col="0" />
