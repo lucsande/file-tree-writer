@@ -1,16 +1,24 @@
 const testFileTree = {
   _name: "appRoot",
-  assets: {
+  0: {
     _name: "assets",
-    styles: { _name: "styles", "index.css": { _name: "index.css" }, "auth.css": { _name: "auth.css" } },
-    images: {
+    0: {
+      _name: "styles",
+      0: { _name: "index.css" },
+      1: { _name: "auth.css" },
+    },
+    1: {
       _name: "images",
-      "logo.png": { _name: "logo.png" },
-      "avatar.jpg": { _name: "avatar.jpg" },
+      0: { _name: "logo.png" },
+      1: { _name: "avatar.jpg" },
     },
   },
-  "index.js": { _name: "index.js" },
-  components: { _name: "components", "Dashboard.js": { _name: "Dashboard.js" }, "Auth.js": { _name: "Auth.js" } },
+  1: { _name: "index.js" },
+  2: {
+    _name: "components",
+    "Dashboard.js": { _name: "Dashboard.js" },
+    "Auth.js": { _name: "Auth.js" },
+  },
 };
 
 export default testFileTree;

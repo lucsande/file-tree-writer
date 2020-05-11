@@ -4,29 +4,49 @@ import exampleFileTree from "../utils/exampleFileTree";
 const fileTreeContext = createContext(null);
 
 const FileTreeProvider = ({ children }) => {
-  const [fileTree, setFileTree] = useState([]);
+  const [fileTree, setFileTree] = useState(exampleFileTree);
 
-  useEffect(() => {
-    async function loadInitialFileTree() {
-      setFileTree(exampleFileTree);
-    }
+  // useEffect(() => {
+  //   setFileTree(exampleFileTree);
+  //   console.log(fileTree);
+  // }, []);
 
-    loadInitialFileTree();
-  }, []);
+  const updateNode = (nodePath, newValue) => {
+    const nodesArray = nodePath.split("-");
+    let nodeToUpdate = fileTree;
+
+    nodesArray.forEach(node => {
+      if (nodeToUpdate.hasOwnProperty(node) && typeof nodeToUpdate[node] === "object") {
+        nodeToUpdate = nodeToUpdate[node];
+      } else {
+        throw new Error("nodePath couldn't be resolved");
+      }
+    });
+
+    nodeToUpdate["_name"] = newValue;
+  };
 
   const addToFileTree = useCallback(() => {
     // TODO
   }, [fileTree]);
 
+  const updateFileTree = useCallback(({ nodePath, newValue }) => {
+    if (nodePath === "root") {
+      setFileTree({ ...fileTree, _name: newValue });
+    } else {
+      updateNode(nodePath, newValue);
+      setFileTree({ ...fileTree });
+    }
+  }, []);
+
   const removeFromFileTree = useCallback(() => {
     // TODO
   }, [fileTree]);
 
-  const value = React.useMemo(() => ({ addToFileTree, removeFromFileTree, fileTree }), [
-    addToFileTree,
-    removeFromFileTree,
-    fileTree,
-  ]);
+  const value = React.useMemo(
+    () => ({ addToFileTree, updateFileTree, removeFromFileTree, fileTree }),
+    [addToFileTree, updateFileTree, removeFromFileTree, fileTree]
+  );
 
   return <fileTreeContext.Provider value={value}>{children}</fileTreeContext.Provider>;
 };
