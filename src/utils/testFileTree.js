@@ -16,8 +16,8 @@ const testFileTree = {
   1: { _name: "index.js" },
   2: {
     _name: "components",
-    "Dashboard.js": { _name: "Dashboard.js" },
-    "Auth.js": { _name: "Auth.js" },
+    0: { _name: "Dashboard.js" },
+    1: { _name: "Auth.js" },
   },
 };
 
