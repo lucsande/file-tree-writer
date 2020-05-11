@@ -1,7 +1,7 @@
-const blank = "       ";
-const iPipe = "   |   ";
-const tPipe = "   ├───";
-const lPipe = "   └───";
+const blank = "     ";
+const iPipe = "  |  ";
+const tPipe = "  ├──";
+const lPipe = "  └──";
 
 export const writeFileTree = fileTree => {
   const isLastChild = true;

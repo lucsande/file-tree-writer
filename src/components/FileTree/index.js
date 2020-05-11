@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FileTreeContainer, FileTreeLine } from "./styles";
-import { writeFileTree } from '../../utils/fileTreeWriter'
+import { writeFileTree } from './methods/fileTreeWriter'
 import { useFileTree } from "../../hooks/fileTree";
 
 function FileTree() {
@@ -18,7 +18,7 @@ function FileTree() {
     <FileTreeContainer>
       <code>
         {lines.map(line => (
-          <FileTreeLine key={line}>{line.substring(7)}</FileTreeLine>
+          <FileTreeLine key={line}>{line.substring(5)}</FileTreeLine>
         ))}
       </code>
     </FileTreeContainer>

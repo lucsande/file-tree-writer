@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback, useContext, useEffect } from "react";
-import testFileTree from "../utils/testFileTree";
+import exampleFileTree from "../utils/exampleFileTree";
 
 const fileTreeContext = createContext(null);
 
@@ -8,7 +8,7 @@ const FileTreeProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadInitialFileTree() {
-      setFileTree(testFileTree);
+      setFileTree(exampleFileTree);
     }
 
     loadInitialFileTree();

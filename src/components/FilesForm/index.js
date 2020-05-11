@@ -10,13 +10,12 @@ function FilesForm() {
 
   return (
     <FilesFormContainer>
-      <InputLine type="folder" col="0" />
-      <InputLine type="folder" col="1" />
-      <InputLine type="folder" col="2" />
-      <InputLine type="file" col="3" />
-      <InputLine type="file" col="2" />
-      <InputLine type="file" col="1" />
-      <InputLine type="file" col="1" />
+      <InputLine type="folder" col="0" value='exampleApp'/>
+      <InputLine type="folder" col="1" value='folder' />
+      <InputLine type="folder" col="2" value='folder(1)' />
+      <InputLine type="file" col="3" value='example.css' />
+      <InputLine type="file" col="2" value='example.html' />
+      <InputLine type="file" col="1" value='example.js' />
     </FilesFormContainer>
   );
 }

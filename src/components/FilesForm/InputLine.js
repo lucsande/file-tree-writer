@@ -3,13 +3,13 @@ import { InputContainer, Input, MidDot } from "./styles";
 
 import { FiChevronDown, FiFolder, FiFile } from "react-icons/fi";
 
-export default function FilesForm({ type, col }) {
+export default function FilesForm({ type, col, value }) {
   if (type === "folder") {
     return (
       <InputContainer col={col}>
         <FiChevronDown style={{opacity: 0.8}}/>
         <FiFolder style={{opacity: 0.8}}/>
-        <Input placeholder="Folder name"></Input>
+    <Input placeholder="Folder name" value={value}></Input>
       </InputContainer>
     );
   } else if (type === "file") {
@@ -17,7 +17,7 @@ export default function FilesForm({ type, col }) {
       <InputContainer col={col}>
         <MidDot>&#183;</MidDot>
         <FiFile style={{opacity: 0.8}}/>
-        <Input placeholder="File name"></Input>
+    <Input placeholder="File name" value={value}></Input>
       </InputContainer>
     );
   }
