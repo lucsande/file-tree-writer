@@ -1,12 +1,16 @@
 import React, { useCallback, useState } from "react";
-import { InputContainer, Input, MidDot } from "./styles";
+import ReactDOM from "react-dom";
 
-import { FiChevronDown, FiFolder, FiFile } from "react-icons/fi";
 import { useFileTree } from "../../hooks/fileTree";
+import { InputContainer, Input, MidDot, DeleteButton, AddButtons } from "./styles";
+import { FiX, FiChevronDown, FiFolder, FiFile, FiFolderPlus, FiFilePlus } from "react-icons/fi";
 
-export default function InputLine({ type, col, initialValue, nodePath, children }) {
+export default function InputLine(props) {
+  const { type, col, initialValue, nodePath, children } = props;
+
   const [value, setValue] = useState(initialValue);
-  const { updateFileTree } = useFileTree();
+  const { updateFileTree, addToFileTree, removeFromFileTree } = useFileTree();
+
   const inputRef = React.useRef();
   const divRef = React.useRef();
 
@@ -17,36 +21,63 @@ export default function InputLine({ type, col, initialValue, nodePath, children 
     updateFileTree({ nodePath, newValue });
   });
 
-  if (type === "folder") {
-    return (
-      <div id={nodePath} ref={divRef}>
-        <InputContainer col={col}>
+  const addNode = useCallback((type, parentDiv, parentPath, parentCol) => {
+    const index = parentDiv.childElementCount;
+    // addToFileTree(type);
+
+    console.log(children);
+    const newNode = (
+      <InputLine
+        type={type}
+        col={parentCol + 1}
+        nodePath={`${parentPath}-${index}`}
+        initialValue="exampleApp"
+        addNode={addNode}
+      ></InputLine>
+    );
+
+    // precisa adicionar propriedade nosnodes da fileTree: lastChildrenIndex
+  });
+
+  const InputIcons = () => {
+    if (type === "folder") {
+      return (
+        <>
           <FiChevronDown style={{ opacity: 0.8 }} />
           <FiFolder style={{ opacity: 0.8 }} />
-          <Input
-            ref={inputRef}
-            placeholder="Folder name"
-            value={value}
-            onChange={handleChange}
-          ></Input>
-        </InputContainer>
-        {children}
-      </div>
-    );
-  } else if (type === "file") {
-    return (
-      <div id={nodePath} ref={divRef}>
-        <InputContainer col={col}>
+        </>
+      );
+    } else if (type === "file") {
+      return (
+        <>
           <MidDot>&#183;</MidDot>
           <FiFile style={{ opacity: 0.8 }} />
-          <Input
-            ref={inputRef}
-            placeholder="File name"
-            value={value}
-            onChange={handleChange}
-          ></Input>
-        </InputContainer>
-      </div>
-    );
-  }
+        </>
+      );
+    }
+  };
+
+  const AddButtonsIcons = () => {
+    if (type === "folder")
+      return (
+        <AddButtons>
+          <FiFolderPlus onClick={() => addNode("folder", divRef.current, nodePath, col)} />
+          <FiFilePlus onClick={() => addNode("file", divRef.current, nodePath, col)} />
+        </AddButtons>
+      );
+  };
+
+  return (
+    <div id={nodePath} ref={divRef}>
+      <InputContainer col={col}>
+        {AddButtonsIcons()}
+        {InputIcons()}
+        <Input ref={inputRef} placeholder={`${type} name`} value={value} onChange={handleChange} />
+        <DeleteButton>
+          <FiX />
+        </DeleteButton>
+      </InputContainer>
+      {children}
+    </div>
+  );
 }
