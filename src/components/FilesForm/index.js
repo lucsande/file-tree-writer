@@ -7,13 +7,20 @@ import { useFileTree } from "../../hooks/fileTree";
 function FilesForm() {
   const { fileTree, getNodeChildren } = useFileTree();
 
-  const createInputs = (node, nodePath = "root") => {
+  const createInputs = node => {
+    const nodePath = node._nodePath;
     const col = nodePath.split("-").length - 1;
     const children = getNodeChildren(node);
 
     return (
-      <InputLine type={node._type} col={col} nodePath={nodePath} initialValue={node._name}>
-        {children.map((child, index) => createInputs(child, nodePath + '-' + index))}
+      <InputLine
+        key={nodePath}
+        type={node._type}
+        col={col}
+        nodePath={nodePath}
+        initialValue={node._name}
+      >
+        {children.map((child, index) => createInputs(child, nodePath + "-" + index))}
       </InputLine>
     );
   };

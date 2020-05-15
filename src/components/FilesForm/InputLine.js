@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from "react";
-import ReactDOM from "react-dom";
 
 import { useFileTree } from "../../hooks/fileTree";
 import { InputContainer, Input, MidDot, DeleteButton, AddButtons } from "./styles";
@@ -7,38 +6,25 @@ import { FiX, FiChevronDown, FiFolder, FiFile, FiFolderPlus, FiFilePlus } from "
 
 export default function InputLine(props) {
   const { type, col, initialValue, nodePath, children } = props;
-
   const [value, setValue] = useState(initialValue);
-  const { updateFileTree, addToFileTree, removeFromFileTree } = useFileTree();
+  const { updateNodeName, addToFileTree, removeFromFileTree } = useFileTree();
 
   const inputRef = React.useRef();
-  const divRef = React.useRef();
 
   const handleChange = useCallback(() => {
     const newValue = inputRef.current.value;
 
     setValue(newValue);
-    updateFileTree({ nodePath, newValue });
+    updateNodeName({ nodePath, newValue });
   });
 
-  const addNode = useCallback((type, parentDiv, parentPath, parentCol) => {
-    const index = parentDiv.childElementCount;
-    // addToFileTree(type);
+  const addNode = useCallback((type, parentPath) => {
+    addToFileTree({ parentPath, type });
+  }, []);
 
-    console.log(children);
-    const newNode = (
-      <InputLine
-        type={type}
-        col={parentCol + 1}
-        nodePath={`${parentPath}-${index}`}
-        initialValue="exampleApp"
-        addNode={addNode}
-      ></InputLine>
-    );
-    // https://medium.com/javascript-inside/transforming-elements-in-react-8e411c0f1bba
-
-    // precisa adicionar propriedade nosnodes da fileTree: lastChildrenIndex
-  });
+  const removeNode = useCallback(parentPath => {
+    removeFromFileTree({ parentPath });
+  }, []);
 
   const InputIcons = () => {
     if (type === "folder") {
@@ -62,19 +48,19 @@ export default function InputLine(props) {
     if (type === "folder")
       return (
         <AddButtons>
-          <FiFolderPlus onClick={() => addNode("folder", divRef.current, nodePath, col)} />
-          <FiFilePlus onClick={() => addNode("file", divRef.current, nodePath, col)} />
+          <FiFolderPlus onClick={() => addNode("folder", nodePath)} />
+          <FiFilePlus onClick={() => addNode("file", nodePath)} />
         </AddButtons>
       );
   };
 
   return (
-    <div id={nodePath} ref={divRef}>
+    <div id={nodePath}>
       <InputContainer col={col}>
         {AddButtonsIcons()}
         {InputIcons()}
         <Input ref={inputRef} placeholder={`${type} name`} value={value} onChange={handleChange} />
-        <DeleteButton>
+        <DeleteButton onClick={() => removeNode(nodePath)}>
           <FiX />
         </DeleteButton>
       </InputContainer>

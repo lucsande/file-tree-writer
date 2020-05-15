@@ -4,7 +4,7 @@ import { useFileTree } from "../../hooks/fileTree";
 
 function FileTree() {
   const { fileTree } = useFileTree();
-  const { getNodeChildren } = useFileTree();
+  const { getNodeChildren, sortChildren } = useFileTree();
 
   const [lines, setLines] = useState([]);
 
@@ -29,25 +29,6 @@ function FileTree() {
     return projectRootLine + childrenLines;
   };
 
-  const writeChildrenLines = (parentNode, parentWasLastChild, prefixToBestow) => {
-    const children = getNodeChildren(parentNode);
-    let childrenLines = "";
-
-    if (children.length === 0) return childrenLines;
-
-    children.forEach((child, index) => {
-      console.log(child)
-      const treeNode = child;
-      const isLastChild = index === children.length - 1;
-      const inheritedPrefix = prefixToBestow;
-
-      const childInfos = { treeNode, isLastChild, parentWasLastChild, inheritedPrefix };
-      childrenLines += writeLines(childInfos);
-    });
-
-    return childrenLines;
-  };
-
   const writeLines = nodeInfos => {
     let { treeNode, isLastChild, parentWasLastChild, inheritedPrefix } = nodeInfos;
 
@@ -59,6 +40,24 @@ function FileTree() {
 
     const childrenLines = writeChildrenLines(treeNode, isLastChild, prefixToBestow);
     return nodeLine + childrenLines;
+  };
+
+  const writeChildrenLines = (parentNode, parentWasLastChild, prefixToBestow) => {
+    const children = getNodeChildren(parentNode);
+    let childrenLines = "";
+
+    if (children.length === 0) return childrenLines;
+
+    children.forEach((child, index) => {
+      const treeNode = child;
+      const isLastChild = index === children.length - 1;
+      const inheritedPrefix = prefixToBestow;
+
+      const childInfos = { treeNode, isLastChild, parentWasLastChild, inheritedPrefix };
+      childrenLines += writeLines(childInfos);
+    });
+
+    return childrenLines;
   };
 
   return (

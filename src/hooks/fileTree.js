@@ -5,40 +5,48 @@ const fileTreeContext = createContext(null);
 
 const FileTreeProvider = ({ children }) => {
   const [fileTree, setFileTree] = useState(exampleFileTree);
+  const nodesMetadata = ["_name", "_type", "_nodePath"];
 
-  const updateNode = (nodePath, newValue) => {
+  const accessNode = nodePath => {
     const nodesArray = nodePath.split("-");
-    let nodeToUpdate = fileTree;
+    let nodeToAccess = fileTree;
 
     nodesArray.forEach(node => {
-      if (nodeToUpdate.hasOwnProperty(node) && typeof nodeToUpdate[node] === "object") {
-        nodeToUpdate = nodeToUpdate[node];
+      if (nodeToAccess.hasOwnProperty(node) && typeof nodeToAccess[node] === "object") {
+        nodeToAccess = nodeToAccess[node];
       } else {
         throw new Error("nodePath couldn't be resolved");
       }
     });
 
-    nodeToUpdate["_name"] = newValue;
+    return nodeToAccess;
   };
 
-  const addToFileTree = useCallback(() => {
-    // TODO
-  }, [fileTree]);
+  const addToFileTree = useCallback(
+    ({ parentPath, type }) => {
+      const parent = accessNode(parentPath);
+      const index = nodeChildrenCount(parent);
 
-  const updateFileTree = useCallback(({ nodePath, newValue }) => {
-    if (nodePath === "root") {
-      fileTree["_name"] = newValue;
+      parent[index] = { _name: "", _type: type, _nodePath: parentPath + "-" + index };
+
       setFileTree({ ...fileTree });
-    } else {
-      updateNode(nodePath, newValue);
-      setFileTree({ ...fileTree });
-    }
-    console.log(fileTree);
+    },
+    [fileTree]
+  );
+
+  const removeFromFileTree = useCallback(
+    ({ parentPath }) => {
+      // TODO
+    },
+    [fileTree]
+  );
+
+  const updateNodeName = useCallback(({ nodePath, newValue }) => {
+    const nodeToUpdate = accessNode(nodePath);
+    nodeToUpdate["_name"] = newValue;
+
+    setFileTree({ ...fileTree });
   }, []);
-
-  const removeFromFileTree = useCallback(() => {
-    // TODO
-  }, [fileTree]);
 
   const getNodeChildren = parentNode => {
     if (parentNode._type === "file") return [];
@@ -47,13 +55,22 @@ const FileTreeProvider = ({ children }) => {
     const children = parentNodeEntries.map(entry => {
       const entryName = entry[0];
       const child = entry[1];
-      if (entryName !== "_name" && entryName !== "_type") return child;
+      if (!nodesMetadata.includes(entryName)) return child;
     });
 
     const filteredChildren = children.filter(child => child !== undefined);
     const sortedChildren = sortChildren(filteredChildren);
 
     return sortedChildren;
+  };
+
+  const nodeChildrenCount = parentNode => {
+    if (parentNode._type === "file") return 0;
+
+    const numberOfEntries = Object.entries(parentNode).length;
+    const numberOfMetadataEntries = nodesMetadata.length;
+
+    return numberOfEntries - numberOfMetadataEntries;
   };
 
   // folders come before files, folders in alphabetical order, files in alphabetical order
@@ -75,8 +92,15 @@ const FileTreeProvider = ({ children }) => {
   };
 
   const value = React.useMemo(
-    () => ({ addToFileTree, updateFileTree, removeFromFileTree, fileTree, getNodeChildren }),
-    [addToFileTree, updateFileTree, removeFromFileTree, fileTree, getNodeChildren]
+    () => ({
+      addToFileTree,
+      updateNodeName,
+      removeFromFileTree,
+      fileTree,
+      getNodeChildren,
+      sortChildren,
+    }),
+    [addToFileTree, updateNodeName, removeFromFileTree, fileTree, getNodeChildren, sortChildren]
   );
 
   return <fileTreeContext.Provider value={value}>{children}</fileTreeContext.Provider>;
