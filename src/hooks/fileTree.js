@@ -5,7 +5,7 @@ const fileTreeContext = createContext(null);
 
 const FileTreeProvider = ({ children }) => {
   const [fileTree, setFileTree] = useState(exampleFileTree);
-  const nodesMetadata = ["_name", "_type", "_nodePath"];
+  const nodesMetadata = ["_name", "_type", "_nodePath", "_nextChildIndex"];
 
   const accessNode = nodePath => {
     const nodesArray = nodePath.split("-");
@@ -22,24 +22,31 @@ const FileTreeProvider = ({ children }) => {
     return nodeToAccess;
   };
 
-  const addToFileTree = useCallback(
-    ({ parentPath, type }) => {
-      const parent = accessNode(parentPath);
-      const index = nodeChildrenCount(parent);
+  const addToFileTree = useCallback(({ parentPath, type }) => {
+    const parent = accessNode(parentPath);
+    parent._nextChildIndex += 1;
+    const index = parent._nextChildIndex;
 
-      parent[index] = { _name: "", _type: type, _nodePath: parentPath + "-" + index };
+    parent[index] = { _name: "", _type: type, _nodePath: parentPath + "-" + index };
+    if (type === "folder") parent[index]._nextChildIndex = 0;
 
-      setFileTree({ ...fileTree });
-    },
-    [fileTree]
-  );
+    setFileTree({ ...fileTree });
+  }, []);
 
-  const removeFromFileTree = useCallback(
-    ({ parentPath }) => {
-      // TODO
-    },
-    [fileTree]
-  );
+  const removeFromFileTree = useCallback(({ nodePath }) => {
+    if (nodePath === "root") {
+      fileTree.root = { _name: "", _type: "folder", _nodePath: "root", _nextChildIndex: 0 };
+      return setFileTree({ ...fileTree });
+    }
+
+    const pathArray = nodePath.split("-");
+    const nodeIndex = pathArray.pop();
+    const parentPath = pathArray.join("-");
+    const parent = accessNode(parentPath);
+
+    delete parent[nodeIndex];
+    setFileTree({ ...fileTree });
+  }, []);
 
   const updateNodeName = useCallback(({ nodePath, newValue }) => {
     const nodeToUpdate = accessNode(nodePath);
@@ -62,15 +69,6 @@ const FileTreeProvider = ({ children }) => {
     const sortedChildren = sortChildren(filteredChildren);
 
     return sortedChildren;
-  };
-
-  const nodeChildrenCount = parentNode => {
-    if (parentNode._type === "file") return 0;
-
-    const numberOfEntries = Object.entries(parentNode).length;
-    const numberOfMetadataEntries = nodesMetadata.length;
-
-    return numberOfEntries - numberOfMetadataEntries;
   };
 
   // folders come before files, folders in alphabetical order, files in alphabetical order

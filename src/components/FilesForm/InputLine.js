@@ -16,14 +16,14 @@ export default function InputLine(props) {
 
     setValue(newValue);
     updateNodeName({ nodePath, newValue });
-  });
+  }, []);
 
   const addNode = useCallback((type, parentPath) => {
     addToFileTree({ parentPath, type });
   }, []);
 
-  const removeNode = useCallback(parentPath => {
-    removeFromFileTree({ parentPath });
+  const removeNode = useCallback(nodePath => {
+    removeFromFileTree({ nodePath });
   }, []);
 
   const InputIcons = () => {

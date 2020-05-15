@@ -3,14 +3,17 @@ const exampleFileTree = {
     _name: "exampleApp",
     _type: "folder",
     _nodePath: "root",
+    _nextChildIndex: 2,
     0: {
       _name: "folder",
       _type: "folder",
       _nodePath: "root-0",
+      _nextChildIndex: 1,
       0: {
         _name: "folder(1)",
         _type: "folder",
         _nodePath: "root-0-0",
+        _nextChildIndex: 1,
         0: { _name: "example.css", _type: "file", _nodePath: "root-0-0-0" },
       },
 
