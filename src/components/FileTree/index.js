@@ -1,18 +1,65 @@
 import React, { useState, useEffect } from "react";
 import { FileTreeContainer, FileTreeLine } from "./styles";
-import { writeFileTree } from './methods/fileTreeWriter'
 import { useFileTree } from "../../hooks/fileTree";
 
 function FileTree() {
   const { fileTree } = useFileTree();
+  const { getNodeChildren } = useFileTree();
 
   const [lines, setLines] = useState([]);
 
   useEffect(() => {
-    const linesString = writeFileTree(fileTree);
+    const linesString = writeFileTree(fileTree.root);
 
     setLines(linesString.split("!separator!"));
   }, [fileTree]);
+
+  const blank = "     ";
+  const iPipe = "  |  ";
+  const tPipe = "  ├──";
+  const lPipe = "  └──";
+
+  const writeFileTree = fileTree => {
+    const isLastChild = true;
+    const prefixToBestow = "";
+    const treeNode = fileTree;
+    const childrenLines = writeChildrenLines(treeNode, isLastChild, prefixToBestow);
+
+    const projectRootLine = blank + treeNode._name + "!separator!";
+    return projectRootLine + childrenLines;
+  };
+
+  const writeChildrenLines = (parentNode, parentWasLastChild, prefixToBestow) => {
+    const children = getNodeChildren(parentNode);
+    let childrenLines = "";
+
+    if (children.length === 0) return childrenLines;
+
+    children.forEach((child, index) => {
+      console.log(child)
+      const treeNode = child;
+      const isLastChild = index === children.length - 1;
+      const inheritedPrefix = prefixToBestow;
+
+      const childInfos = { treeNode, isLastChild, parentWasLastChild, inheritedPrefix };
+      childrenLines += writeLines(childInfos);
+    });
+
+    return childrenLines;
+  };
+
+  const writeLines = nodeInfos => {
+    let { treeNode, isLastChild, parentWasLastChild, inheritedPrefix } = nodeInfos;
+
+    let pipeOrBlank = parentWasLastChild ? blank : iPipe;
+    let tpipeOrLpipe = isLastChild ? lPipe : tPipe;
+    let prefixToBestow = inheritedPrefix + pipeOrBlank;
+
+    let nodeLine = inheritedPrefix + pipeOrBlank + tpipeOrLpipe + treeNode._name + "!separator!";
+
+    const childrenLines = writeChildrenLines(treeNode, isLastChild, prefixToBestow);
+    return nodeLine + childrenLines;
+  };
 
   return (
     <FileTreeContainer>

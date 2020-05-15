@@ -1,12 +1,16 @@
 const exampleFileTree = {
-  _name: "exampleApp",
-  0: {
-    _name: "folder",
-    0: { _name: "folder(1)", 0: { _name: "example.css" } },
-    
-    1: { _name: "example.html" },
+  root: {
+    _name: "exampleApp",
+    _type: "folder",
+    0: {
+      _name: "folder",
+      _type: "folder",
+      0: { _name: "folder(1)", _type: "folder", 0: { _name: "example.css", _type: "file" } },
+
+      1: { _name: "example.html", _type: "file" },
+    },
+    1: { _name: "example.js", _type: "file" },
   },
-  1: { _name: "example.js" },
 };
 
 export default exampleFileTree;

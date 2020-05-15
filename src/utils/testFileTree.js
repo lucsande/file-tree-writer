@@ -1,23 +1,30 @@
 const testFileTree = {
-  _name: "appRoot",
-  0: {
-    _name: "assets",
+  root: {
+    _name: "appRoot",
+    _type: "folder",
     0: {
-      _name: "styles",
-      0: { _name: "index.css" },
-      1: { _name: "auth.css" },
+      _name: "assets",
+      _type: "folder",
+      0: {
+        _name: "styles",
+        _type: "folder",
+        0: { _name: "index.css", _type: "file" },
+        1: { _name: "auth.css", _type: "file" },
+      },
+      1: {
+        _name: "images",
+        _type: "folder",
+        0: { _name: "logo.png", _type: "file" },
+        1: { _name: "avatar.jpg", _type: "file" },
+      },
     },
-    1: {
-      _name: "images",
-      0: { _name: "logo.png" },
-      1: { _name: "avatar.jpg" },
+    1: { _name: "index.js", _type: "file" },
+    2: {
+      _name: "components",
+      _type: "folder",
+      0: { _name: "Dashboard.js", _type: "file" },
+      1: { _name: "Auth.js", _type: "file" },
     },
-  },
-  1: { _name: "index.js" },
-  2: {
-    _name: "components",
-    0: { _name: "Dashboard.js" },
-    1: { _name: "Auth.js" },
   },
 };
 

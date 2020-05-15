@@ -35,6 +35,7 @@ export default function InputLine(props) {
         addNode={addNode}
       ></InputLine>
     );
+    // https://medium.com/javascript-inside/transforming-elements-in-react-8e411c0f1bba
 
     // precisa adicionar propriedade nosnodes da fileTree: lastChildrenIndex
   });

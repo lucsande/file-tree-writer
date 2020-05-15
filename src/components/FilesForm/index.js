@@ -1,43 +1,24 @@
 import React from "react";
 
-import { FilesFormContainer, InputContainer, Input } from "./styles";
+import { FilesFormContainer } from "./styles";
 import InputLine from "./InputLine";
 import { useFileTree } from "../../hooks/fileTree";
 
 function FilesForm() {
-  const { addToFileTree, removeFromFileTree, fileTree } = useFileTree();
+  const { fileTree, getNodeChildren } = useFileTree();
 
-  return (
-    <FilesFormContainer>
-      <InputLine type="folder" col="0" nodePath="root" initialValue="exampleApp">
-        <InputLine type="folder" col="1" nodePath="0" initialValue="folder">
-          <InputLine
-            type="folder"
-            col="2"
-            nodePath="0-0"
-            initialValue="folder(1)"
-          
-          >
-            <InputLine
-              type="file"
-              col="3"
-              nodePath="0-0-0"
-              initialValue="example.css"
-            
-            />
-          </InputLine>
-          <InputLine
-            type="file"
-            col="2"
-            nodePath="0-1"
-            initialValue="example.html"
-          
-          />
-        </InputLine>
-        <InputLine type="file" col="1" nodePath="1" initialValue="example.js" />
+  const createInputs = (node, nodePath = "root") => {
+    const col = nodePath.split("-").length - 1;
+    const children = getNodeChildren(node);
+
+    return (
+      <InputLine type={node._type} col={col} nodePath={nodePath} initialValue={node._name}>
+        {children.map((child, index) => createInputs(child, nodePath + '-' + index))}
       </InputLine>
-    </FilesFormContainer>
-  );
+    );
+  };
+
+  return <FilesFormContainer>{createInputs(fileTree.root)}</FilesFormContainer>;
 }
 
 export default FilesForm;
