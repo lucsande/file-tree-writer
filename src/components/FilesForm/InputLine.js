@@ -7,30 +7,63 @@ import { FiX, FiChevronDown, FiFolder, FiFile, FiFolderPlus, FiFilePlus } from "
 export default function InputLine(props) {
   const { type, col, initialValue, nodePath, children } = props;
   const [value, setValue] = useState(initialValue);
-  const { updateNodeName, addToFileTree, removeFromFileTree } = useFileTree();
+  const { updateNodeName, addToFileTree, removeFromFileTree, migrateInFileTree } = useFileTree();
 
   const inputRef = React.useRef();
+
+  const onDragStart = useCallback(event => {
+    event.dataTransfer.setData("text/plain", event.target.id);
+  }, []);
+
+  const onDragOver = useCallback(event => {
+    event.preventDefault();
+  }, []);
+
+  const onDrop = useCallback(
+    event => {
+      const newParent = event.currentTarget;
+      let newParentPath = newParent.dataset.nodePath;
+
+      const isInvalidParent = newParent.dataset.type === "file";
+      const nodeIndexFinder = /-\d+$/;
+      if (isInvalidParent) newParentPath.replace(nodeIndexFinder, "");
+
+      const draggedElementId = event.dataTransfer.getData("text");
+      const draggedElement = document.querySelector(`#${draggedElementId}`);
+      const draggedElmPath = draggedElement.dataset.nodePath;
+
+      migrateInFileTree({ nodePath: draggedElmPath, newParentPath });
+      event.dataTransfer.clearData();
+    },
+    [migrateInFileTree]
+  );
 
   const handleChange = useCallback(() => {
     const newValue = inputRef.current.value;
 
     setValue(newValue);
     updateNodeName({ nodePath, newValue });
-  }, []);
+  }, [nodePath, updateNodeName]);
 
-  const addNode = useCallback(async (type, parentPath) => {
-    const newNode = await addToFileTree({ parentPath, type });
+  const addNode = useCallback(
+    async (type, parentPath) => {
+      const newNode = await addToFileTree({ parentPath, type });
 
-    const newInput = document.querySelector(`#${newNode._nodePath}-input`);
-    newInput.focus();
-  }, []);
+      const newInput = document.querySelector(`#input-${newNode._nodePath}`);
+      newInput.focus();
+    },
+    [addToFileTree]
+  );
 
-  const removeNode = useCallback(nodePath => {
-    if (nodePath === "root") setValue("root");
-    removeFromFileTree({ nodePath });
-  }, []);
+  const removeNode = useCallback(
+    nodePath => {
+      if (nodePath === "root") setValue("root");
+      removeFromFileTree({ nodePath });
+    },
+    [removeFromFileTree]
+  );
 
-  const InputIcons = () => {
+  const showTypeIcons = () => {
     if (type === "folder") {
       return (
         <>
@@ -48,13 +81,13 @@ export default function InputLine(props) {
     }
   };
 
-  const ButtonsIcons = () => {
+  const showButtonIcons = () => {
     if (type === "folder") {
       return (
         <Buttons>
-          <FiFolderPlus onClick={() => addNode("folder", nodePath)} />
-          <FiFilePlus onClick={() => addNode("file", nodePath)} />
-          <FiX onClick={() => removeNode(nodePath)} />
+          <FiFolderPlus className='folder-plus-btn' onClick={() => addNode("folder", nodePath)} />
+          <FiFilePlus className='file-plus-btn' onClick={() => addNode("file", nodePath)} />
+          <FiX className='delete-btn' onClick={() => removeNode(nodePath)} />
         </Buttons>
       );
     } else {
@@ -67,21 +100,30 @@ export default function InputLine(props) {
   };
 
   return (
-    <div>
-      <InputContainer col={col}>
+    <>
+      <InputContainer
+        col={col}
+        id={"id-" + nodePath}
+        draggable="true"
+        onDragStart={evt => onDragStart(evt)}
+        onDragOver={evt => onDragOver(evt)}
+        onDrop={evt => onDrop(evt)}
+        data-node-path={nodePath}
+        data-type={type}
+      >
         <div>
-          {InputIcons()}
+          {showTypeIcons()}
           <Input
-            id={nodePath + "-input"}
+            id={"input-" + nodePath}
             ref={inputRef}
             placeholder={`${type} name`}
             value={value}
             onChange={handleChange}
           />
         </div>
-        {ButtonsIcons()}
+        {showButtonIcons()}
       </InputContainer>
       {children}
-    </div>
+    </>
   );
 }

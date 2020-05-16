@@ -4,8 +4,8 @@ import { Title, SubTitle } from "./styles";
 function Header() {
   return (
     <>
-      <Title><span>Simple</span>FileTreeWriter</Title>
-      <SubTitle>Improve your StackOverflow questions with this simple directory tree generator </SubTitle>
+      <Title><span className='lighter-title'>Simple</span><span>FileTree</span><span>Writer</span></Title>
+      <SubTitle>Improve your StackOverflow questions with this simple directory structure generator </SubTitle>
     </>
   );
 }

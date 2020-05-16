@@ -9,16 +9,26 @@ export const Title = styled.h1`
   margin-top: 0;
 
   span {
+    display: block;
+    line-height: 2.75rem;
+  }
+
+  .lighter-title {
     font-size: 2.7rem;
     font-weight: 400;
+  }
+
+  @media (min-width: 500px) {
+    span {
+      display: inline-block;
+    }
   }
 `;
 
 export const SubTitle = styled.h2`
-  color: #242729;
   font-family: "PT Sans", sans-serif;
   font-weight: 400;
   font-size: 1.2rem;
   margin-top: 0.25rem;
-  margin-bottom: 5rem;
+  margin-bottom: 3rem;
 `;

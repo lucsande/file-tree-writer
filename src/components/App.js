@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Body, Container, FilesContainer } from "./styles.js";
 
 import Header from "./Header/index";
@@ -10,9 +10,11 @@ function App() {
     <Body>
       <Container>
         <Header />
+        
+        <p>Recreate your app structure below:</p>
         <FilesContainer>
-          <FileTree />
           <FilesForm />
+          <FileTree />
         </FilesContainer>
       </Container>
     </Body>

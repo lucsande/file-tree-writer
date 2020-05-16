@@ -20,7 +20,7 @@ function FilesForm() {
         nodePath={nodePath}
         initialValue={node._name}
       >
-        {children.map((child, index) => createInputs(child, nodePath + "-" + index))}
+        {children.map(child => createInputs(child))}
       </InputLine>
     );
   };

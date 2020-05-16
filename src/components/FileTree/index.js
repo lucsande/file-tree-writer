@@ -4,7 +4,7 @@ import { useFileTree } from "../../hooks/fileTree";
 
 function FileTree() {
   const { fileTree } = useFileTree();
-  const { getNodeChildren, sortChildren } = useFileTree();
+  const { getNodeChildren } = useFileTree();
 
   const [lines, setLines] = useState([]);
 
