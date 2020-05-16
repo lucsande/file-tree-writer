@@ -2,15 +2,22 @@ import styled from "styled-components";
 
 export const FilesFormContainer = styled.div`
   background-color: #fff;
-  padding: 1.25rem 0.75rem 2rem;;
+  padding: 1.25rem 0.75rem 2rem;
   min-heigth: calc(100% - 3px);
   border: #ffc89b 0.1rem solid;
   border-radius: 5px 5px 0 0;
   flex-grow: 1;
-  
+
   @media (min-width: 1100px) {
     border-radius: 5px 0px 0 5px;
   }
+`;
+
+export const Line = styled.div`
+  max-height: 100rem;
+  max-width: 100rem;
+  transition: max-width 0.25s;
+  transition: max-height 0.25s;
 `;
 
 export const InputContainer = styled.div`
@@ -50,7 +57,8 @@ export const InputContainer = styled.div`
     &:hover svg {
       transition: opacity 1s;
     }
-    &:hover .file-plus-btn, &:hover .folder-plus-btn {
+    &:hover .file-plus-btn,
+    &:hover .folder-plus-btn {
       transition-delay: 0s;
     }
   }

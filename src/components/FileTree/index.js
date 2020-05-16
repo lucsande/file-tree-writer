@@ -71,7 +71,7 @@ function FileTree() {
 
     setTimeout(() => (tooltip.style.opacity = 0), 1000);
     setTimeout(() => (tooltip.style.visibility = 'hidden'), 1500);
-  });
+  }, []);
 
   const copyToClipboard = useCallback(() => {
     const tempTextArea = document.createElement("textarea");
@@ -85,7 +85,7 @@ function FileTree() {
     showTooltip();
 
     document.body.removeChild(tempTextArea);
-  });
+  }, [showTooltip]);
 
   return (
     <FileTreeContainer>
@@ -95,7 +95,7 @@ function FileTree() {
           Copied to clipboard!
         </Tooltip>
       </CopyIconContainer>
-      <code ref={codeAreaRef}>
+      <code ref={codeAreaRef} id="code-area">
         {lines.map(line => (
           <FileTreeLine key={Math.random(9999)}>{line.substring(5)}</FileTreeLine>
         ))}

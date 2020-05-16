@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import { useFileTree } from "../../hooks/fileTree";
-import { InputContainer, Input, MidDot, Buttons } from "./styles";
+import { Line, InputContainer, Input, MidDot, Buttons } from "./styles";
 import { FiX, FiChevronDown, FiFolder, FiFile, FiFolderPlus, FiFilePlus } from "react-icons/fi";
 
 export default function InputLine(props) {
@@ -10,6 +10,7 @@ export default function InputLine(props) {
   const { updateNodeName, addToFileTree, removeFromFileTree, migrateInFileTree } = useFileTree();
 
   const inputRef = React.useRef();
+  const lineRef = React.useRef();
 
   const onDragStart = useCallback(event => {
     event.dataTransfer.setData("text/plain", event.target.id);
@@ -55,10 +56,29 @@ export default function InputLine(props) {
     [addToFileTree]
   );
 
+  const clearChildrenInputs = useCallback(line => {
+    const children = line.children;
+    for (let child of children) {
+      // root InputContainer can't be removed, only the other InputContainers
+      if(child.id !== "input-container-root") animateRemoval(child);
+    }
+  });
+
+  const animateRemoval = useCallback(element => {
+    // root can't be removed, only its children
+    if (element.id === "line-root") return clearChildrenInputs(element);
+
+    element.style.overflow = "hidden";
+    element.style.maxHeight = "1px";
+    element.style.maxWidth = "1px";
+  }, []);
+
   const removeNode = useCallback(
     nodePath => {
-      if (nodePath === "root") setValue("root");
-      removeFromFileTree({ nodePath });
+      if (nodePath === "root") setTimeout(()=>setValue("root"), 250);
+      animateRemoval(lineRef.current);
+
+      setTimeout(() => removeFromFileTree({ nodePath }), 250);
     },
     [removeFromFileTree]
   );
@@ -85,9 +105,9 @@ export default function InputLine(props) {
     if (type === "folder") {
       return (
         <Buttons>
-          <FiFolderPlus className='folder-plus-btn' onClick={() => addNode("folder", nodePath)} />
-          <FiFilePlus className='file-plus-btn' onClick={() => addNode("file", nodePath)} />
-          <FiX className='delete-btn' onClick={() => removeNode(nodePath)} />
+          <FiFolderPlus className="folder-plus-btn" onClick={() => addNode("folder", nodePath)} />
+          <FiFilePlus className="file-plus-btn" onClick={() => addNode("file", nodePath)} />
+          <FiX className="delete-btn" onClick={() => removeNode(nodePath)} />
         </Buttons>
       );
     } else {
@@ -100,10 +120,10 @@ export default function InputLine(props) {
   };
 
   return (
-    <>
+    <Line id={`line-${nodePath}`} ref={lineRef} data-node-path={nodePath}>
       <InputContainer
         col={col}
-        id={"id-" + nodePath}
+        id={"input-container-" + nodePath}
         draggable="true"
         onDragStart={evt => onDragStart(evt)}
         onDragOver={evt => onDragOver(evt)}
@@ -124,6 +144,6 @@ export default function InputLine(props) {
         {showButtonIcons()}
       </InputContainer>
       {children}
-    </>
+    </Line>
   );
 }
