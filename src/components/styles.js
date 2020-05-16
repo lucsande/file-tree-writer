@@ -23,6 +23,6 @@ export const Container = styled.div`
 
 export const FilesContainer = styled.div`
   display: flex;
-  align-items: start;
+  align-items: stretch;
   border-radius: 5px;
 `;

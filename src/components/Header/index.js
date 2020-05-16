@@ -5,7 +5,7 @@ function Header() {
   return (
     <>
       <Title><span>Simple</span>FileTreeWriter</Title>
-      <SubTitle>Improve your StackOverflow questions with this simple file tree generator</SubTitle>
+      <SubTitle>Improve your StackOverflow questions with this simple directory tree generator </SubTitle>
     </>
   );
 }

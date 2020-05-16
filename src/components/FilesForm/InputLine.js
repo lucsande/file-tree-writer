@@ -1,15 +1,7 @@
 import React, { useCallback, useState } from "react";
 
 import { useFileTree } from "../../hooks/fileTree";
-import {
-  InputContainer,
-  Input,
-  MidDot,
-  DeleteButton,
-  AddButtons,
-  AddFolder,
-  AddFile,
-} from "./styles";
+import { InputContainer, Input, MidDot, Buttons } from "./styles";
 import { FiX, FiChevronDown, FiFolder, FiFile, FiFolderPlus, FiFilePlus } from "react-icons/fi";
 
 export default function InputLine(props) {
@@ -26,11 +18,15 @@ export default function InputLine(props) {
     updateNodeName({ nodePath, newValue });
   }, []);
 
-  const addNode = useCallback((type, parentPath) => {
-    addToFileTree({ parentPath, type });
+  const addNode = useCallback(async (type, parentPath) => {
+    const newNode = await addToFileTree({ parentPath, type });
+
+    const newInput = document.querySelector(`#${newNode._nodePath}-input`);
+    newInput.focus();
   }, []);
 
   const removeNode = useCallback(nodePath => {
+    if (nodePath === "root") setValue("root");
     removeFromFileTree({ nodePath });
   }, []);
 
@@ -52,29 +48,38 @@ export default function InputLine(props) {
     }
   };
 
-  const AddButtonsIcons = () => {
-    if (type === "folder")
+  const ButtonsIcons = () => {
+    if (type === "folder") {
       return (
-        <AddButtons>
-          <AddFolder>
-            <FiFolderPlus onClick={() => addNode("folder", nodePath)} />
-          </AddFolder>
-          <AddFile>
-            <FiFilePlus onClick={() => addNode("file", nodePath)} />
-          </AddFile>
-        </AddButtons>
+        <Buttons>
+          <FiFolderPlus onClick={() => addNode("folder", nodePath)} />
+          <FiFilePlus onClick={() => addNode("file", nodePath)} />
+          <FiX onClick={() => removeNode(nodePath)} />
+        </Buttons>
       );
+    } else {
+      return (
+        <Buttons>
+          <FiX onClick={() => removeNode(nodePath)} />
+        </Buttons>
+      );
+    }
   };
 
   return (
-    <div id={nodePath}>
+    <div>
       <InputContainer col={col}>
-        {AddButtonsIcons()}
-        {InputIcons()}
-        <Input ref={inputRef} placeholder={`${type} name`} value={value} onChange={handleChange} />
-        <DeleteButton onClick={() => removeNode(nodePath)}>
-          <FiX />
-        </DeleteButton>
+        <div>
+          {InputIcons()}
+          <Input
+            id={nodePath + "-input"}
+            ref={inputRef}
+            placeholder={`${type} name`}
+            value={value}
+            onChange={handleChange}
+          />
+        </div>
+        {ButtonsIcons()}
       </InputContainer>
       {children}
     </div>

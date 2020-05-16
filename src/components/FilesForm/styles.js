@@ -12,43 +12,40 @@ export const FilesFormContainer = styled.div`
 export const InputContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 0.5rem;
-  margin-left: ${props => props.col * 2}rem;
+  justify-content: space-between;
+  margin-bottom: 0rem;
+  padding-left: ${props => props.col * 2}rem;
   position: relative;
+
+  &:hover {
+    background-color: #ffe0c6;
+  }
+
+  &:hover input {
+    background-color: #ffe0c6;
+  }
 
   &:hover div {
     opacity: 1;
-    transition: opacity 1s 0.75s;
+    transition: opacity 1s;
   }
-  `;
-  
-  export const AddButtons = styled.div`
+`;
+
+export const Buttons = styled.div`
   font-weight: bold;
+  font-size: 1.1rem;
   z-index: 50;
   color: #f48024;
   opacity: 0;
-  transition: opacity 0.5s 0s;
-  
+  transition: opacity 0.2s;
+  display: flex;
+
   svg {
-    margin-right: 0.2rem;
+    margin-right: 0.3rem;
   }
 `;
 
-export const AddFolder = styled.div`
-  position: absolute;
-  left: 0rem;
-  top: -0.7rem;
-`;
-
-export const AddFile = styled.div`
-  position: absolute;
-  left: 0rem;
-  bottom: -0.8rem;
-`;
-
 export const Input = styled.input`
-  background-color: #fff;
-  border: red solid;
   border-color: rgba(0, 0, 0, 0);
   margin-left: 0.1rem;
   position: relative;
@@ -59,18 +56,13 @@ export const Input = styled.input`
 
   &:focus {
     outline: 2px solid #fdcf30;
+    background-color: #fff!important;
   }
-`;
-
-export const DeleteButton = styled.div`
-  margin-left: 0.5rem;
-  color: #f48024;
-  opacity: 0;
-  transition: opacity 0.2s;
 `;
 
 export const MidDot = styled.span`
   width: 1rem;
+  display: inline-block;
   text-align: center;
   opacity: 0.6;
 `;

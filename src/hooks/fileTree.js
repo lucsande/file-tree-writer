@@ -26,16 +26,18 @@ const FileTreeProvider = ({ children }) => {
     const parent = accessNode(parentPath);
     parent._nextChildIndex += 1;
     const index = parent._nextChildIndex;
+    const nodePath =  parentPath + "-" + index
 
-    parent[index] = { _name: "", _type: type, _nodePath: parentPath + "-" + index };
+    parent[index] = { _name: "", _type: type, _nodePath: nodePath };
     if (type === "folder") parent[index]._nextChildIndex = 0;
 
     setFileTree({ ...fileTree });
+    return parent[index]
   }, []);
 
   const removeFromFileTree = useCallback(({ nodePath }) => {
     if (nodePath === "root") {
-      fileTree.root = { _name: "", _type: "folder", _nodePath: "root", _nextChildIndex: 0 };
+      fileTree.root = { _name: "root", _type: "folder", _nodePath: "root", _nextChildIndex: 0 };
       return setFileTree({ ...fileTree });
     }
 
