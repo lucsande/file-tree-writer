@@ -1,7 +1,15 @@
 import React, { useCallback, useState } from "react";
 
 import { useFileTree } from "../../hooks/fileTree";
-import { InputContainer, Input, MidDot, DeleteButton, AddButtons } from "./styles";
+import {
+  InputContainer,
+  Input,
+  MidDot,
+  DeleteButton,
+  AddButtons,
+  AddFolder,
+  AddFile,
+} from "./styles";
 import { FiX, FiChevronDown, FiFolder, FiFile, FiFolderPlus, FiFilePlus } from "react-icons/fi";
 
 export default function InputLine(props) {
@@ -48,8 +56,12 @@ export default function InputLine(props) {
     if (type === "folder")
       return (
         <AddButtons>
-          <FiFolderPlus onClick={() => addNode("folder", nodePath)} />
-          <FiFilePlus onClick={() => addNode("file", nodePath)} />
+          <AddFolder>
+            <FiFolderPlus onClick={() => addNode("folder", nodePath)} />
+          </AddFolder>
+          <AddFile>
+            <FiFilePlus onClick={() => addNode("file", nodePath)} />
+          </AddFile>
         </AddButtons>
       );
   };

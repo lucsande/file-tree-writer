@@ -64,7 +64,7 @@ function FileTree() {
     <FileTreeContainer>
       <code>
         {lines.map(line => (
-          <FileTreeLine key={Math.random(5000)}>{line.substring(5)}</FileTreeLine>
+          <FileTreeLine key={Math.random(9999)}>{line.substring(5)}</FileTreeLine>
         ))}
       </code>
     </FileTreeContainer>

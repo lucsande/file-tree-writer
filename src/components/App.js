@@ -1,15 +1,19 @@
 import React, { useState } from "react";
-import { Body, Container } from "./styles.js";
-import FileTree from "./FileTree/index";
+import { Body, Container, FilesContainer } from "./styles.js";
+
+import Header from "./Header/index";
 import FilesForm from "./FilesForm/index";
+import FileTree from "./FileTree/index";
 
 function App() {
-
   return (
     <Body>
       <Container>
-        <FilesForm />
-        <FileTree />
+        <Header />
+        <FilesContainer>
+          <FileTree />
+          <FilesForm />
+        </FilesContainer>
       </Container>
     </Body>
   );
