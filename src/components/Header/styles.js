@@ -10,14 +10,14 @@ export const Title = styled.h1`
 
   span {
     display: block;
-    line-height: 2.75rem;
+    line-height: 3rem;
   }
-
+  
   .lighter-title {
     font-size: 2.7rem;
     font-weight: 400;
   }
-
+  
   @media (min-width: 500px) {
     span {
       display: inline-block;

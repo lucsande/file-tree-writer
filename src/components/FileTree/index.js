@@ -1,5 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { FileTreeContainer, FileTreeLine } from "./styles";
+import { FiCopy } from "react-icons/fi";
+
 import { useFileTree } from "../../hooks/fileTree";
 
 function FileTree() {
@@ -7,6 +9,7 @@ function FileTree() {
   const { getNodeChildren } = useFileTree();
 
   const [lines, setLines] = useState([]);
+  const codeAreaRef = useRef();
 
   useEffect(() => {
     const linesString = writeFileTree(fileTree.root);
@@ -60,9 +63,22 @@ function FileTree() {
     return childrenLines;
   };
 
+  const copyToClipboard = useCallback(() => {
+    const tempTextArea = document.createElement("textarea");
+    tempTextArea.value = codeAreaRef.current.innerText;
+    document.body.appendChild(tempTextArea);
+
+    tempTextArea.select();
+    tempTextArea.setSelectionRange(0, 99999); /*For mobile devices*/
+    document.execCommand("copy");
+
+    document.body.removeChild(tempTextArea);
+  });
+
   return (
     <FileTreeContainer>
-      <code>
+      <FiCopy id="copy-icon" onClick={() => copyToClipboard()} />
+      <code ref={codeAreaRef}>
         {lines.map(line => (
           <FileTreeLine key={Math.random(9999)}>{line.substring(5)}</FileTreeLine>
         ))}
