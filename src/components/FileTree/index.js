@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { FileTreeContainer, FileTreeLine } from "./styles";
+import { FileTreeContainer, FileTreeLine, CopyIconContainer, Tooltip } from "./styles";
 import { FiCopy } from "react-icons/fi";
 
 import { useFileTree } from "../../hooks/fileTree";
@@ -10,6 +10,7 @@ function FileTree() {
 
   const [lines, setLines] = useState([]);
   const codeAreaRef = useRef();
+  const tooltipRef = useRef();
 
   useEffect(() => {
     const linesString = writeFileTree(fileTree.root);
@@ -63,6 +64,15 @@ function FileTree() {
     return childrenLines;
   };
 
+  const showTooltip = useCallback(() => {
+    const tooltip = tooltipRef.current;
+    tooltip.style.opacity = 1;
+    tooltip.style.visibility = "visible";
+
+    setTimeout(() => (tooltip.style.opacity = 0), 1000);
+    setTimeout(() => (tooltip.style.visibility = 'hidden'), 1500);
+  });
+
   const copyToClipboard = useCallback(() => {
     const tempTextArea = document.createElement("textarea");
     tempTextArea.value = codeAreaRef.current.innerText;
@@ -72,12 +82,19 @@ function FileTree() {
     tempTextArea.setSelectionRange(0, 99999); /*For mobile devices*/
     document.execCommand("copy");
 
+    showTooltip();
+
     document.body.removeChild(tempTextArea);
   });
 
   return (
     <FileTreeContainer>
-      <FiCopy id="copy-icon" onClick={() => copyToClipboard()} />
+      <CopyIconContainer>
+        <FiCopy id="copy-icon" onClick={() => copyToClipboard()} />
+        <Tooltip ref={tooltipRef} className="tooltip">
+          Copied to clipboard!
+        </Tooltip>
+      </CopyIconContainer>
       <code ref={codeAreaRef}>
         {lines.map(line => (
           <FileTreeLine key={Math.random(9999)}>{line.substring(5)}</FileTreeLine>
