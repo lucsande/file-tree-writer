@@ -26,7 +26,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   
-  @media (min-width: 500px) {
+  @media (min-width: 720px) {
     padding: 50px 50px;
   }
   `;

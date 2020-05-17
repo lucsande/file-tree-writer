@@ -62,7 +62,7 @@ export default function InputLine(props) {
       // root InputContainer can't be removed, only the other InputContainers
       if(child.id !== "input-container-root") animateRemoval(child);
     }
-  });
+  }, []);
 
   const animateRemoval = useCallback(element => {
     // root can't be removed, only its children
@@ -104,7 +104,7 @@ export default function InputLine(props) {
   const showButtonIcons = () => {
     if (type === "folder") {
       return (
-        <Buttons>
+        <Buttons className='buttons'>
           <FiFolderPlus className="folder-plus-btn" onClick={() => addNode("folder", nodePath)} />
           <FiFilePlus className="file-plus-btn" onClick={() => addNode("file", nodePath)} />
           <FiX className="delete-btn" onClick={() => removeNode(nodePath)} />
@@ -112,7 +112,7 @@ export default function InputLine(props) {
       );
     } else {
       return (
-        <Buttons>
+        <Buttons className='buttons'>
           <FiX onClick={() => removeNode(nodePath)} />
         </Buttons>
       );

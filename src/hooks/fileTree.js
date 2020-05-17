@@ -26,6 +26,57 @@ const FileTreeProvider = ({ children }) => {
     [fileTree]
   );
 
+
+  // folders come before files, folders in alphabetical order, files in alphabetical order
+  const sortChildren = useCallback(children => {
+    const sortedChildren = children.sort((a, b) => {
+      const aIsFolder = a._type === "folder";
+      const bIsFolder = b._type === "folder";
+
+      if (aIsFolder && !bIsFolder) {
+        return -1;
+      } else if (!aIsFolder && bIsFolder) {
+        return 1;
+      } else {
+        return a._name < b._name ? -1 : 1;
+      }
+    });
+
+    return sortedChildren;
+  }, []);
+
+  const getNodeChildren = useCallback(
+    parentNode => {
+      if (parentNode._type === "file") return [];
+
+      const parentNodeEntries = Object.entries(parentNode);
+      const children = parentNodeEntries.map(entry => {
+        const entryName = entry[0];
+        const child = entry[1];
+        if (nodesMetadata.includes(entryName)) return undefined;
+
+        return child;
+      });
+
+      const filteredChildren = children.filter(child => child !== undefined);
+      const sortedChildren = sortChildren(filteredChildren);
+
+      return sortedChildren;
+    },
+    [sortChildren, nodesMetadata]
+  );
+
+  const updateNodePath = useCallback(({ node, nodePath }) => {
+    node._nodePath = nodePath;
+    const children = getNodeChildren(node);
+    children.forEach(child => {
+      updateNodePath({ node: child, nodePath: `${nodePath}-${node._nextChildIndex}` });
+      node._nextChildIndex += 1;
+    });
+
+    return node;
+  }, [getNodeChildren]);
+
   const addNode = useCallback(
     ({ parentPath, type, newNode = null }) => {
       const parent = accessNode(parentPath);
@@ -34,7 +85,8 @@ const FileTreeProvider = ({ children }) => {
       const nodePath = parentPath + "-" + index;
 
       if (newNode) {
-        parent[index] = { ...newNode, _nodePath: nodePath };
+        const updatedNode = updateNodePath({ node: newNode, nodePath });
+        parent[index] = { ...updatedNode };
       } else {
         parent[index] = { _name: "", _type: type, _nodePath: nodePath };
         if (type === "folder") parent[index]._nextChildIndex = 0;
@@ -42,7 +94,7 @@ const FileTreeProvider = ({ children }) => {
 
       return parent[index];
     },
-    [accessNode]
+    [accessNode, updateNodePath]
   );
 
   const addToFileTree = useCallback(
@@ -50,6 +102,7 @@ const FileTreeProvider = ({ children }) => {
       const newNode = addNode({ parentPath, type });
 
       setFileTree({ ...fileTree });
+      console.log(fileTree);
       return newNode;
     },
     [addNode, fileTree]
@@ -101,45 +154,6 @@ const FileTreeProvider = ({ children }) => {
       setFileTree({ ...fileTree });
     },
     [accessNode, removeNode, addNode, fileTree]
-  );
-
-  // folders come before files, folders in alphabetical order, files in alphabetical order
-  const sortChildren = useCallback(children => {
-    const sortedChildren = children.sort((a, b) => {
-      const aIsFolder = a._type === "folder";
-      const bIsFolder = b._type === "folder";
-
-      if (aIsFolder && !bIsFolder) {
-        return -1;
-      } else if (!aIsFolder && bIsFolder) {
-        return 1;
-      } else {
-        return a._name < b._name ? -1 : 1;
-      }
-    });
-
-    return sortedChildren;
-  }, []);
-
-  const getNodeChildren = useCallback(
-    parentNode => {
-      if (parentNode._type === "file") return [];
-
-      const parentNodeEntries = Object.entries(parentNode);
-      const children = parentNodeEntries.map(entry => {
-        const entryName = entry[0];
-        const child = entry[1];
-        if (nodesMetadata.includes(entryName)) return undefined;
-
-        return child;
-      });
-
-      const filteredChildren = children.filter(child => child !== undefined);
-      const sortedChildren = sortChildren(filteredChildren);
-
-      return sortedChildren;
-    },
-    [sortChildren, nodesMetadata]
   );
 
   const value = React.useMemo(

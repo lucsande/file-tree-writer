@@ -95,7 +95,7 @@ function FileTree() {
           Copied to clipboard!
         </Tooltip>
       </CopyIconContainer>
-      <code ref={codeAreaRef} id="code-area">
+      <code ref={codeAreaRef}>
         {lines.map(line => (
           <FileTreeLine key={Math.random(9999)}>{line.substring(5)}</FileTreeLine>
         ))}

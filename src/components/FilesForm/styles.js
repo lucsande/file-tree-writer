@@ -14,10 +14,10 @@ export const FilesFormContainer = styled.div`
 `;
 
 export const Line = styled.div`
-  max-height: 100rem;
-  max-width: 100rem;
-  transition: max-width 0.25s;
-  transition: max-height 0.25s;
+  max-height: 1000rem;
+  max-width: 1000rem;
+  transition: max-width 1.5s;
+  transition: max-height 2s;
 `;
 
 export const InputContainer = styled.div`
@@ -28,7 +28,7 @@ export const InputContainer = styled.div`
   padding-left: ${props => props.col * 1}rem;
   position: relative;
 
-  @media (min-width: 1100px) {
+  @media (min-width: 500px) {
     padding-left: ${props => props.col * 2}rem;
     flex-direction: row;
   }
@@ -53,7 +53,7 @@ export const InputContainer = styled.div`
     transition-delay: 0.2s;
   }
 
-  @media (min-width: 1100px) {
+  @media (min-width: 500px) {
     &:hover svg {
       transition: opacity 1s;
     }
@@ -83,7 +83,7 @@ export const Buttons = styled.div`
     margin-top: 1.3rem;
   }
 
-  @media (min-width: 1100px) {
+  @media (min-width: 500px) {
     position: static;
     flex-direction: row;
 
@@ -108,7 +108,7 @@ export const Input = styled.input`
     background-color: #fff !important;
   }
 
-  @media (min-width: 550px) {
+  @media (min-width: 500px) {
     display: inline-block;
     margin-left: 0.1rem;
     max-width: none;
