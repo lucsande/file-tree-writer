@@ -8,8 +8,9 @@ SimpleFileTreeWriter is web app that allows users to interactively generate dire
 
 The main motivation for this project was to use it as a practical exercise in UX, React, CSS and (lots of) recursion. But, hopefully, it can also be useful to other people. By the way, if you need to generate directory structures, you might also want to check the `tree` command, available for Linux, Windows and Mac.
 
-<br />
+![gif showing the app usage](https://github.com/lucsande/file-tree-writer/blob/master/public/images/file-tree-writer-usage.gif?raw=true)
 
+<br />
 
 ## Running
 
@@ -20,6 +21,29 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## Code Overview
+
+`
+file-tree-writer
+  └──src
+       ├──components
+       |    ├──FileTree
+       |    |    ├──index.js
+       |    |    └──styles.js
+       |    ├──FilesForm
+       |    |    ├──InputLine.js
+       |    |    ├──index.js
+       |    |    └──styles.js
+       |    ├──Header
+       |    |    ├──index.js
+       |    |    └──styles.js
+       |    ├──App.js
+       |    └──styles.js
+       ├──hooks
+       |    └──fileTree.js
+       └──index.js
+`
+<br />
+<br />
 
 ### Hooks
 #### useFileTree
@@ -40,7 +64,7 @@ This component uses the custom useFileTree hook to access the global fileTree st
 <br />
 
 #### FileTree
-This is the component responsible for displaying the final file tree the user can copy and use in their StackOverflow questions. This components gets the fileTree state from the useFileTree hook and uses it to recursively generate each one of the file tree lines. Each line is comprised of four elements: inheritedPrefix + pipeOrBlank + tpipeOrLpipe + treeNode._name 
+This is the component responsible for displaying the final file tree the user can copy to use in StackOverflow questions. This component gets the fileTree state from the useFileTree hook and uses it to recursively generate each one of the file tree lines. Each line is comprised of four elements: inheritedPrefix + pipeOrBlank + tpipeOrLpipe + treeNode._name 
 
 ![visual explanation of how file tree lines are written](https://github.com/lucsande/file-tree-writer/blob/master/public/images/anatomy-of-a-line.png?raw=true)
 

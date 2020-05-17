@@ -16,7 +16,9 @@ export const FileTreeContainer = styled.div`
     border-top-width: 0.1rem;
     border-left-width: 0;
     border-radius: 0px 5px 5px 0;
+  }
 
+  @media (min-width: 500px) {
     &:hover #copy-icon {
       opacity: 0.6;
     }
