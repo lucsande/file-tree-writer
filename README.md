@@ -21,27 +21,29 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 
 ## Code Overview
+<pre>
+  `
+  file-tree-writer
+    └──src
+        ├──components
+        |    ├──FileTree
+        |    |    ├──index.js
+        |    |    └──styles.js
+        |    ├──FilesForm
+        |    |    ├──InputLine.js
+        |    |    ├──index.js
+        |    |    └──styles.js
+        |    ├──Header
+        |    |    ├──index.js
+        |    |    └──styles.js
+        |    ├──App.js
+        |    └──styles.js
+        ├──hooks
+        |    └──fileTree.js
+        └──index.js
+  `
+<pre>
 
-`
-file-tree-writer
-  └──src
-       ├──components
-       |    ├──FileTree
-       |    |    ├──index.js
-       |    |    └──styles.js
-       |    ├──FilesForm
-       |    |    ├──InputLine.js
-       |    |    ├──index.js
-       |    |    └──styles.js
-       |    ├──Header
-       |    |    ├──index.js
-       |    |    └──styles.js
-       |    ├──App.js
-       |    └──styles.js
-       ├──hooks
-       |    └──fileTree.js
-       └──index.js
-`
 <br />
 <br />
 
