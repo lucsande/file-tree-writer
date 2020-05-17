@@ -1,7 +1,8 @@
-[#### A live version can be found here](https://file-tree-writer.now.sh/)
-<br />
 
 # SimpleFileTreeWriter
+
+[A live version can be found here](https://file-tree-writer.now.sh/)
+<br />
 
 SimpleFileTreeWriter is web app that allows users to interactively generate directory trees for better presenting their projects' architecture. It was created with StackOverflow users in mind, who usually use such schema in their questions. 
 
