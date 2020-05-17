@@ -40,7 +40,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
         ├──hooks
         |    └──fileTree.js
         └──index.js
-<pre>
+</pre>
 
 <br />
 <br />
