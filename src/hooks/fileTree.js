@@ -27,7 +27,7 @@ const FileTreeProvider = ({ children }) => {
     [fileTree]
   );
 
-  // folders come before files, folders in alphabetical order, files in alphabetical order
+  // folders come before files. Folders are in alphabetical order, files are in alphabetical order too
   const sortChildren = useCallback(children => {
     const sortedChildren = children.sort((a, b) => {
       const aIsFolder = a._type === "folder";
@@ -66,6 +66,8 @@ const FileTreeProvider = ({ children }) => {
     [sortChildren, nodesMetadata]
   );
 
+  // updates a node and all its children's nodePaths
+  // recursion is neccessary because every time a node's nodePath changes, its children must be updated as well
   const updateNodePath = useCallback(
     ({ node, nodePath }) => {
       node._nodePath = nodePath;
@@ -153,6 +155,7 @@ const FileTreeProvider = ({ children }) => {
     [accessNode, fileTree]
   );
 
+  // moves a node to a new parent node, updating node's and all its children's nodePaths
   const migrateInFileTree = useCallback(
     ({ nodePath, newParentPath }) => {
       if (nodePath === newParentPath) return;

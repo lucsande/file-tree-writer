@@ -12,7 +12,7 @@ export const FileTreeContainer = styled.div`
   padding: 1.5rem 1rem 2rem;
   min-width: 8rem;
 
-  @media (min-width: 500px) {
+  @media (min-width: 1100px) {
     border-top-width: 0.1rem;
     border-left-width: 0;
     border-radius: 0px 5px 5px 0;
