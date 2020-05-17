@@ -1,11 +1,11 @@
 import React, { createContext, useState, useCallback, useContext } from "react";
 import exampleFileTree from "../utils/exampleFileTree";
-import testFileTree from "../utils/testFileTree";
+// import testFileTree from "../utils/testFileTree";
 
 const fileTreeContext = createContext(null);
 
 const FileTreeProvider = ({ children }) => {
-  const [fileTree, setFileTree] = useState(testFileTree);
+  const [fileTree, setFileTree] = useState(exampleFileTree);
   const nodesMetadata = ["_name", "_type", "_nodePath", "_nextChildIndex"];
 
   const accessNode = useCallback(
