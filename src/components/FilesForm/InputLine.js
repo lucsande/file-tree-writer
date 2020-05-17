@@ -27,8 +27,8 @@ export default function InputLine(props) {
 
       const isInvalidParent = newParent.dataset.type === "file";
       const nodeIndexFinder = /-\d+$/;
-      if (isInvalidParent) newParentPath.replace(nodeIndexFinder, "");
-
+      if (isInvalidParent) newParentPath = newParentPath.replace(nodeIndexFinder, "");
+      
       const draggedElementId = event.dataTransfer.getData("text");
       const draggedElement = document.querySelector(`#${draggedElementId}`);
       const draggedElmPath = draggedElement.dataset.nodePath;
@@ -60,7 +60,7 @@ export default function InputLine(props) {
     const children = line.children;
     for (let child of children) {
       // root InputContainer can't be removed, only the other InputContainers
-      if(child.id !== "input-container-root") animateRemoval(child);
+      if (child.id !== "input-container-root") animateRemoval(child);
     }
   }, []);
 
@@ -75,7 +75,7 @@ export default function InputLine(props) {
 
   const removeNode = useCallback(
     nodePath => {
-      if (nodePath === "root") setTimeout(()=>setValue("root"), 250);
+      if (nodePath === "root") setTimeout(() => setValue("root"), 250);
       animateRemoval(lineRef.current);
 
       setTimeout(() => removeFromFileTree({ nodePath }), 250);
@@ -104,7 +104,7 @@ export default function InputLine(props) {
   const showButtonIcons = () => {
     if (type === "folder") {
       return (
-        <Buttons className='buttons'>
+        <Buttons className="buttons">
           <FiFolderPlus className="folder-plus-btn" onClick={() => addNode("folder", nodePath)} />
           <FiFilePlus className="file-plus-btn" onClick={() => addNode("file", nodePath)} />
           <FiX className="delete-btn" onClick={() => removeNode(nodePath)} />
@@ -112,7 +112,7 @@ export default function InputLine(props) {
       );
     } else {
       return (
-        <Buttons className='buttons'>
+        <Buttons className="buttons">
           <FiX onClick={() => removeNode(nodePath)} />
         </Buttons>
       );
