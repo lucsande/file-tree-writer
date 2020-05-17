@@ -47,12 +47,14 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Hooks
 #### useFileTree
-useFileTree is a custom hook created for this project and used by the main components of the application. It was created using React's useContext and stores both the main state of the application (fileTree) and all the needed operations to manipulate the fileTree state. These operations rely heavily on recursion to add/remove/update nodes in the fileTree state. This hook is where most of the action in the app happens and is meant to centralize the logic responsible changing the fileTree state.
+useFileTree is a custom hook created for this project and used by the main components of the application. It was created using React's useContext and stores both the main state of the application (fileTree) and all the needed operations to manipulate the fileTree state. These operations rely heavily on recursion to add/remove/update nodes in the fileTree state. 
+
+This hook is where most of the action in the app happens and is meant to centralize the logic responsible for changing the fileTree state, allowing the components to have logic regarding only user interactions and the display of data.
 <br />
 <br />
 
 ### Main Components
-This project uses mainly three components: Header, FilesForm and FileTree. This project uses [Styled Components](https://github.com/styled-components/styled-components), so each component directory also has styles.js file with the styled components. Logic changing the fileTree state is centralized in the useFileTree hook and the components focus on the display logic for this state.
+This project mainly has three components: Header, FilesForm and FileTree. This project uses [Styled Components](https://github.com/styled-components/styled-components), so each component directory also has a styles.js file with the styled components. Logic changing the fileTree state is centralized in the useFileTree hook and the components focus on the display logic for this state.
 <br />
 
 #### Header 
