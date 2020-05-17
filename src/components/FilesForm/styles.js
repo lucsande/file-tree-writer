@@ -15,10 +15,10 @@ export const FilesFormContainer = styled.div`
 `;
 
 export const Line = styled.div`
-  max-height: 1000rem;
-  max-width: 1000rem;
-  transition: max-width 1.5s;
-  transition: max-height 2s;
+  max-height: 200rem;
+  max-width: 200rem;
+  transition: max-width 0.2s;
+  transition: max-height 0.2s;
 `;
 
 export const InputContainer = styled.div`

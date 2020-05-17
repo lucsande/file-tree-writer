@@ -9,17 +9,8 @@ const exampleFileTree = {
       _type: "folder",
       _nodePath: "root-0",
       _nextChildIndex: 1,
-      // 0: {
-      //   _name: "folder(1)",
-      //   _type: "folder",
-      //   _nodePath: "root-0-0",
-      //   _nextChildIndex: 1,
-      //   0: { _name: "example.css", _type: "file", _nodePath: "root-0-0-0" },
-      // },
-
-      1: { _name: "example.html", _type: "file", _nodePath: "root-0-1" },
+      1: { _name: "example.html", _type: "file", _nodePath: "root-0-0" },
     },
-    // 1: { _name: "example.js", _type: "file", _nodePath: "root-1" },
   },
 };
 

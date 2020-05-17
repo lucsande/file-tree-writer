@@ -28,7 +28,7 @@ export default function InputLine(props) {
       const isInvalidParent = newParent.dataset.type === "file";
       const nodeIndexFinder = /-\d+$/;
       if (isInvalidParent) newParentPath = newParentPath.replace(nodeIndexFinder, "");
-      
+
       const draggedElementId = event.dataTransfer.getData("text");
       const draggedElement = document.querySelector(`#${draggedElementId}`);
       const draggedElmPath = draggedElement.dataset.nodePath;
@@ -68,17 +68,17 @@ export default function InputLine(props) {
     // root can't be removed, only its children
     if (element.id === "line-root") return clearChildrenInputs(element);
 
-    element.style.overflow = "hidden";
-    element.style.maxHeight = "1px";
+    setTimeout(() => (element.style.overflow = "hidden"), 50);
     element.style.maxWidth = "1px";
+    element.style.maxHeight = "1px";
   }, []);
 
   const removeNode = useCallback(
     nodePath => {
-      if (nodePath === "root") setTimeout(() => setValue("root"), 250);
+      if (nodePath === "root") setTimeout(() => setValue("root"), 200);
       animateRemoval(lineRef.current);
 
-      setTimeout(() => removeFromFileTree({ nodePath }), 250);
+      setTimeout(() => removeFromFileTree({ nodePath }), 200);
     },
     [removeFromFileTree]
   );
