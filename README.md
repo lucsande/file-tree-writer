@@ -22,7 +22,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Code Overview
 <pre>
-  `
   file-tree-writer
     └──src
         ├──components
@@ -41,7 +40,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
         ├──hooks
         |    └──fileTree.js
         └──index.js
-  `
 <pre>
 
 <br />
