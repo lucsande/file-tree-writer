@@ -37,7 +37,7 @@ This component uses the custom useFileTree hook to access the global fileTree st
 #### FileTree
 This is the component responsible for displaying the final file tree the user can copy and use in their StackOverflow questions. This components gets the fileTree state from the useFileTree hook and uses it to recursively generate each one of the file tree lines. Each line is comprised of four elements: inheritedPrefix + pipeOrBlank + tpipeOrLpipe + treeNode._name 
 
-https://github.com/lucsande/file-tree-writer/blob/master/public/images/anatomy-of-a-line.png?raw=true
+![visual explanation of how file tree lines are written](https://github.com/lucsande/file-tree-writer/blob/master/public/images/anatomy-of-a-line.png?raw=true)
 
 
 
