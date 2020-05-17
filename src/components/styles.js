@@ -26,6 +26,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: flex-start;
   
+  
   @media (min-width: 720px) {
     padding: 50px 50px;
   }
@@ -34,6 +35,7 @@ export const Container = styled.div`
   export const FilesContainer = styled.div`
   align-items: stretch;
   border-radius: 5px;
+  
   
   @media (min-width: 1100px) {
     display: flex;

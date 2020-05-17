@@ -7,6 +7,7 @@ export const FilesFormContainer = styled.div`
   border: #ffc89b 0.1rem solid;
   border-radius: 5px 5px 0 0;
   flex-grow: 1;
+  
 
   @media (min-width: 1100px) {
     border-radius: 5px 0px 0 5px;

@@ -46,7 +46,7 @@ export const CopyIconContainer = styled.div`
 
 export const Tooltip = styled.span`
   visibility: hidden;
-  width: 12rem;
+  width: 8rem;
   background-color: #555;
   color: #fff;
   text-align: center;
@@ -58,17 +58,6 @@ export const Tooltip = styled.span`
   left: -6rem;
   opacity: 0;
   transition: opacity 0.3s;
-
-  &::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-  }
 `;
 
 export const FileTreeLine = styled.pre`
