@@ -17,6 +17,7 @@ const FileTreeProvider = ({ children }) => {
         if (nodeToAccess.hasOwnProperty(node) && typeof nodeToAccess[node] === "object") {
           nodeToAccess = nodeToAccess[node];
         } else {
+          console.log(nodeToAccess, node);
           throw new Error("nodePath couldn't be resolved");
         }
       });
@@ -25,7 +26,6 @@ const FileTreeProvider = ({ children }) => {
     },
     [fileTree]
   );
-
 
   // folders come before files, folders in alphabetical order, files in alphabetical order
   const sortChildren = useCallback(children => {
@@ -66,22 +66,32 @@ const FileTreeProvider = ({ children }) => {
     [sortChildren, nodesMetadata]
   );
 
-  const updateNodePath = useCallback(({ node, nodePath }) => {
-    node._nodePath = nodePath;
-    const children = getNodeChildren(node);
-    children.forEach(child => {
-      updateNodePath({ node: child, nodePath: `${nodePath}-${node._nextChildIndex}` });
-      node._nextChildIndex += 1;
-    });
+  const updateNodePath = useCallback(
+    ({ node, nodePath }) => {
+      node._nodePath = nodePath;
+      const children = getNodeChildren(node);
 
-    return node;
-  }, [getNodeChildren]);
+      // duplicate all children with an updated nodePath and delete original children
+      children.forEach(child => {
+        const previousIndex = child._nodePath.split("-").pop();
+        const newIndex = node._nextChildIndex;
+        
+        node[newIndex] = updateNodePath({ node: child, nodePath: `${nodePath}-${newIndex}` });
+        delete node[previousIndex];
+        
+        node._nextChildIndex += 1;
+      });
+
+      return node;
+    },
+    [getNodeChildren]
+  );
 
   const addNode = useCallback(
     ({ parentPath, type, newNode = null }) => {
       const parent = accessNode(parentPath);
-      parent._nextChildIndex += 1;
       const index = parent._nextChildIndex;
+      parent._nextChildIndex += 1;
       const nodePath = parentPath + "-" + index;
 
       if (newNode) {
@@ -152,6 +162,7 @@ const FileTreeProvider = ({ children }) => {
       removeNode({ nodePath });
 
       setFileTree({ ...fileTree });
+      console.log(fileTree);
     },
     [accessNode, removeNode, addNode, fileTree]
   );

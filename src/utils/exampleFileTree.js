@@ -3,13 +3,13 @@ const exampleFileTree = {
     _name: "exampleApp",
     _type: "folder",
     _nodePath: "root",
-    _nextChildIndex: 2,
+    _nextChildIndex: 1,
     0: {
       _name: "folder",
       _type: "folder",
       _nodePath: "root-0",
       _nextChildIndex: 1,
-      1: { _name: "example.html", _type: "file", _nodePath: "root-0-0" },
+      0: { _name: "example.html", _type: "file", _nodePath: "root-0-0" },
     },
   },
 };
