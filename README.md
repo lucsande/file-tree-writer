@@ -54,19 +54,19 @@ This hook is where most of the action in the app happens and is meant to central
 <br />
 
 ### Main Components
-This project mainly has three components: Header, FilesForm and FileTree. This project uses [Styled Components](https://github.com/styled-components/styled-components), so each component directory also has a styles.js file with the styled components. Logic changing the fileTree state is centralized in the useFileTree hook and the components focus on the display logic for this state.
+This project has three main components: Header, FilesForm and FileTree. This project uses [Styled Components](https://github.com/styled-components/styled-components), so each component directory also has a styles.js file with the necessary styled components. Logic changing the fileTree state is centralized in the useFileTree hook and the components focus only on the display logic.
 <br />
 
 #### Header 
-It is the most basic of the components, used just for displaying the App title and subtitle
+It is the most basic of the components, used just for displaying the App's title and subtitle
 <br />
 
 #### FilesForm
-This component uses the custom useFileTree hook to access the global fileTree state. It then uses the fileTree state to generate the inputs users interact with. This component has a child component called InputLine, which is used to render each one of the inputs and where most user interactions happen.
+This component uses the custom useFileTree hook to access the global fileTree state. This global state is used to generate the HTML inputs users interact with. This component has a child component called InputLine, which is used to render each one of the inputs and where most user interactions happen.
 <br />
 
 #### FileTree
-This is the component responsible for displaying the final file tree the user can copy to use in StackOverflow questions. This component gets the fileTree state from the useFileTree hook and uses it to recursively generate each one of the file tree lines. Each line is comprised of four elements: inheritedPrefix + pipeOrBlank + tpipeOrLpipe + treeNode._name 
+This is the component responsible for displaying the final file tree the user can copy to use in StackOverflow questions. Just like FilesForm, this component gets the fileTree state from the useFileTree hook and uses it to recursively generate each one of the file tree lines. Each line is comprised of four elements: inheritedPrefix + pipeOrBlank + tpipeOrLpipe + treeNode._name 
 
 ![visual explanation of how file tree lines are written](https://github.com/lucsande/file-tree-writer/blob/master/public/images/anatomy-of-a-line.png?raw=true)
 
